@@ -11,11 +11,13 @@ namespace pulumi_aspnet
         public Pulumi.Azure.Sql.Database Db { get; set; }
         public Pulumi.Azure.Storage.Account Storage { get; set; }
         public Pulumi.Azure.Storage.Container Container { get; set; }
-        public Pulumi.Azure.AppServer.Plan Plan { get; set; }
+        public Pulumi.Azure.AppService.Plan Plan { get; set; }
         public Pulumi.Azure.AppService.AppService App { get; set; }
 
         protected override void OnProvisioning(ResourceBuilder<MyServiceResources> builder)
         {
+            builder.Export("Foo", "bar");
+
             builder.Resource(b => b.ResourceGroup)
                 .HasLocation("northcentralus");
 
@@ -54,7 +56,7 @@ namespace pulumi_aspnet
                     { "Database:Username", DbServer.AdministratorLogin },
                     { "Database:Password", DbServer.AdministratorLoginPassword },
 
-                    { "Storage:AccoutName", Storage.Name },
+                    { "Storage:AccountName", Storage.Name },
                     { "Storage:Container", Container.Name },
                     { "Storage:AccountKey", Storage.PrimaryAccessKey },
                 });
